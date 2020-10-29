@@ -17,6 +17,7 @@ class Plakalar extends StatefulWidget {
 
 class _PlakalarState extends State<Plakalar> {
   Ebatlilar ebatlilar;
+  //
   @override
   Widget build(BuildContext context) {
     return Consumer(
