@@ -183,6 +183,7 @@ class _DialogumState extends State<Dialogum> {
                             }
                             (_viewModel.state == EbatliState.LoadedState)
                                 ? veriGeldi()
+                                //Ana sayfa geri yüklendiği için direk GetData methodu tetikleniyor.
                                 : (_viewModel.state == EbatliState.LoadingState)
                                     ? veriGeliyor()
                                     : (_viewModel.state ==

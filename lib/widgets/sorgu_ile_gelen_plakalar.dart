@@ -3,59 +3,16 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:inventory/models/ebatli.dart';
 import 'package:inventory/repository/ebatli_repository.dart';
 import 'package:inventory/view_models/ebatli_view_models.dart';
-import 'package:inventory/widgets/sorgu_dialog.dart';
+import 'package:inventory/widgets/sorgu_ekrani.dart';
 import 'package:provider/provider.dart';
 import '../locator.dart';
 import 'plaka_ekleme_dialog.dart';
 
-class SorguileGelenPlakalar extends StatefulWidget {
-  @override
-  _SorguileGelenPlakalarState createState() => _SorguileGelenPlakalarState();
-}
-
-class _SorguileGelenPlakalarState extends State<SorguileGelenPlakalar> {
+class SorguileGelenPlakalar extends StatelessWidget {
   String secilenIsim;
+  SorguileGelenPlakalar({@required this.secilenIsim});
   @override
   Widget build(BuildContext context) {
-    return Consumer(
-        builder: (context, EbatliViewModel _viewModel, widget) => Scaffold(
-            appBar: AppBar(
-              title: Text("Plakalar"),
-              actions: [
-                IconButton(
-                    icon: Icon(Icons.search),
-                    onPressed: () async {
-                      secilenIsim = await Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => SorguEkrani()));
-                    }),
-                IconButton(
-                    icon: Icon(Icons.get_app),
-                    onPressed: () {
-                      _viewModel.getQueryWithNameView(secilenIsim);
-                      //GetData methodu gibi; getQuery Methodunu tetikleyip, State durumunu değştirmek ve ürünleri listelemek için yazdık.
-                    }),
-              ],
-            ),
-            body: (_viewModel.state == EbatliState.Loaded2State)
-                ? sorguileGelenlerBody()
-                : (_viewModel.state == EbatliState.Loading2State)
-                    ? veriGeliyor()
-                    : (_viewModel.state == EbatliState.Error2State)
-                        ? hataGeldi()
-                        : Text("Seçim")));
-  }
-
-  veriGeliyor() {
-    return CircularProgressIndicator();
-  }
-
-  hataGeldi() {
-    Text("Hava Durumu getirilirken hata oluştu");
-  }
-
-  Widget sorguileGelenlerBody() {
     String bejUrl =
         "https://previews.123rf.com/images/alexeybykov/alexeybykov1511/alexeybykov151100035/48245835-seamless-beige-marble-background-with-natural-pattern-tiled-cream-marble-stone-wall-texture-.jpg";
     String oliveMarronUrl =
@@ -164,5 +121,13 @@ class _SorguileGelenPlakalarState extends State<SorguileGelenPlakalar> {
             }
           }),
     );
+  }
+
+  veriGeliyor() {
+    return CircularProgressIndicator();
+  }
+
+  hataGeldi() {
+    Text("Hava Durumu getirilirken hata oluştu");
   }
 }

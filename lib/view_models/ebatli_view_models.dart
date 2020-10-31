@@ -67,6 +67,7 @@ class EbatliViewModel with ChangeNotifier {
 
   //İSME GÖRE SORGULA
   Future<List<Ebatlilar>> getQueryWithNameView(String isim) async {
+    //Üstte Tüm plakaları Liste Methodumuzda kullandığımız state leri burada kullanamayız, Onun için yeni Stateler açtık, Çok önemli
     Future<List<Ebatlilar>> a;
     try {
       state = EbatliState.Loading2State;
