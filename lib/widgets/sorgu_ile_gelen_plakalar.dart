@@ -128,6 +128,6 @@ class SorguileGelenPlakalar extends StatelessWidget {
   }
 
   hataGeldi() {
-    Text("Hava Durumu getirilirken hata oluştu");
+    Text("Arama yaparken bir hata oluştu");
   }
 }
