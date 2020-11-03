@@ -12,13 +12,15 @@ enum EbatliState {
   Loading2State,
   Loaded2State,
   Error2State,
+  Loading3State,
+  Loaded3State,
+  Error3State,
 }
 
 class EbatliViewModel with ChangeNotifier {
   EbatliState _state;
   EbatliRepository _ebatliRepository = locator<EbatliRepository>();
   Ebatlilar _getirilenler;
-
   EbatliViewModel() {
     _state = EbatliState.InitialState;
     getData();
@@ -28,6 +30,7 @@ class EbatliViewModel with ChangeNotifier {
     _state = EbatliState.InitialState;
   }*/
   Ebatlilar get getirilenler => _getirilenler;
+
   //_state i get ve set yaptık
   EbatliState get state => _state;
   set state(EbatliState value) {
@@ -70,7 +73,7 @@ class EbatliViewModel with ChangeNotifier {
     //Üstte Tüm plakaları Liste Methodumuzda kullandığımız state leri burada kullanamayız, Onun için yeni Stateler açtık, Çok önemli
     Future<List<Ebatlilar>> a;
     try {
-      state = EbatliState.LoadingState;
+      state = EbatliState.Loading2State;
       a = _ebatliRepository.getQuerywithNameRepo(isim).then((value) =>
           value.docs.map((e) => Ebatlilar.fromMap(e.data())).toList());
       state = EbatliState.Loaded2State;
@@ -79,6 +82,37 @@ class EbatliViewModel with ChangeNotifier {
     }
 
     return a;
+  }
+
+  //ID ye GÖRE SORGULA
+  Future<List<Ebatlilar>> getQueryWithIdView(String id) async {
+    //Üstte Tüm plakaları Liste Methodumuzda kullandığımız state leri burada kullanamayız, Onun için yeni Stateler açtık, Çok önemli
+    Future<List<Ebatlilar>> a;
+    try {
+      state = EbatliState.LoadingState;
+      a = _ebatliRepository.getQuerywithIdRepo(id).then((value) =>
+          value.docs.map((e) => Ebatlilar.fromMap(e.data())).toList());
+      state = EbatliState.LoadedState;
+    } catch (e) {
+      state = EbatliState.ErrorState;
+    }
+
+    return a;
+  }
+
+  //ID İLE SİLME İŞLEMİ
+  Future<void> silmeIslemiView(String id) async {
+    print("add Tetiklendi");
+    try {
+      state = EbatliState.LoadingState;
+      print("loading tetiklendi");
+      _ebatliRepository.silmeIslemiRepo(id);
+      state = EbatliState.LoadedState;
+      print("Loaded tetiklendi veri gönderildi");
+    } catch (e) {
+      state = EbatliState.ErrorState;
+      print("Hata Alındı");
+    }
   }
 
   void stateGuncelle() {

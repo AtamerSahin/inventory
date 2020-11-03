@@ -3,6 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:inventory/models/ebatli.dart';
 import 'package:inventory/repository/ebatli_repository.dart';
 import 'package:inventory/view_models/ebatli_view_models.dart';
+import 'package:inventory/widgets/secilen_plaka_detay.dart';
 import 'package:provider/provider.dart';
 import '../locator.dart';
 import 'plaka_ekleme_dialog.dart';
@@ -36,82 +37,92 @@ class _TumPlakalarState extends State<TumPlakalar> {
                   itemBuilder: (context, index) {
                     return Padding(
                       padding: const EdgeInsets.all(15.0),
-                      child: Container(
-                        decoration: BoxDecoration(
-                          image: DecorationImage(
-                              image: sonuc.data[index].isim == "Olive Marron"
-                                  ? NetworkImage(oliveMarronUrl)
-                                  : NetworkImage(muglaBejUrl),
-                              fit: BoxFit.cover),
-                        ),
-                        /*color: index % 2 == 0
-                                              ? Colors.orange.shade300
-                                              : Colors.lightBlue.shade300,*/
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                            Text(
-                              sonuc.data[index].isim,
-                              style: TextStyle(
-                                  fontFamily: "ElYazisi",
-                                  fontSize: 20,
-                                  color:
-                                      sonuc.data[index].isim == "Olive Marron"
-                                          ? Colors.white70
-                                          : Colors.black45),
-                            ),
-                            Text(
-                              "Cins: " + sonuc.data[index].cins,
-                              style: TextStyle(
-                                  fontFamily: "ElYazisi",
-                                  fontSize: 15,
-                                  color:
-                                      sonuc.data[index].isim == "Olive Marron"
-                                          ? Colors.white70
-                                          : Colors.black45),
-                            ),
-                            Text(
-                              "Kalite: " + sonuc.data[index].kalite,
-                              style: TextStyle(
-                                  fontFamily: "ElYazisi",
-                                  fontSize: 15,
-                                  color:
-                                      sonuc.data[index].isim == "Olive Marron"
-                                          ? Colors.white70
-                                          : Colors.black45),
-                            ),
-                            Text(
-                              "En: " + sonuc.data[index].en.toString(),
-                              style: TextStyle(
-                                  fontFamily: "ElYazisi",
-                                  fontSize: 15,
-                                  color:
-                                      sonuc.data[index].isim == "Olive Marron"
-                                          ? Colors.white70
-                                          : Colors.black45),
-                            ),
-                            Text(
-                              "Boy: " + sonuc.data[index].boy.toString(),
-                              style: TextStyle(
-                                  fontFamily: "ElYazisi",
-                                  fontSize: 15,
-                                  color:
-                                      sonuc.data[index].isim == "Olive Marron"
-                                          ? Colors.white70
-                                          : Colors.black45),
-                            ),
-                            Text(
-                              "Toplam Metraj: " +
-                                  sonuc.data[index].metraj.toString(),
-                              style: TextStyle(
-                                  fontFamily: "ElYazisi",
-                                  fontSize: 15,
-                                  color:
-                                      sonuc.data[index].isim == "Olive Marron"
-                                          ? Colors.white70
-                                          : Colors.black45),
-                            ),
-                          ],
+                      child: InkWell(
+                        //Update Ve Delete İşlemleri için, Sardık
+                        onTap: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => SecilenPlakaDetay(
+                                      id: sonuc.data[index].id)));
+                        },
+                        child: Container(
+                          decoration: BoxDecoration(
+                            image: DecorationImage(
+                                image: sonuc.data[index].isim == "Olive Marron"
+                                    ? NetworkImage(oliveMarronUrl)
+                                    : NetworkImage(muglaBejUrl),
+                                fit: BoxFit.cover),
+                          ),
+                          /*color: index % 2 == 0
+                                                ? Colors.orange.shade300
+                                                : Colors.lightBlue.shade300,*/
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              Text(
+                                sonuc.data[index].isim,
+                                style: TextStyle(
+                                    fontFamily: "ElYazisi",
+                                    fontSize: 20,
+                                    color:
+                                        sonuc.data[index].isim == "Olive Marron"
+                                            ? Colors.white70
+                                            : Colors.black45),
+                              ),
+                              Text(
+                                "Cins: " + sonuc.data[index].cins,
+                                style: TextStyle(
+                                    fontFamily: "ElYazisi",
+                                    fontSize: 15,
+                                    color:
+                                        sonuc.data[index].isim == "Olive Marron"
+                                            ? Colors.white70
+                                            : Colors.black45),
+                              ),
+                              Text(
+                                "Kalite: " + sonuc.data[index].kalite,
+                                style: TextStyle(
+                                    fontFamily: "ElYazisi",
+                                    fontSize: 15,
+                                    color:
+                                        sonuc.data[index].isim == "Olive Marron"
+                                            ? Colors.white70
+                                            : Colors.black45),
+                              ),
+                              Text(
+                                "En: " + sonuc.data[index].en.toString(),
+                                style: TextStyle(
+                                    fontFamily: "ElYazisi",
+                                    fontSize: 15,
+                                    color:
+                                        sonuc.data[index].isim == "Olive Marron"
+                                            ? Colors.white70
+                                            : Colors.black45),
+                              ),
+                              Text(
+                                "Boy: " + sonuc.data[index].boy.toString(),
+                                style: TextStyle(
+                                    fontFamily: "ElYazisi",
+                                    fontSize: 15,
+                                    color:
+                                        sonuc.data[index].isim == "Olive Marron"
+                                            ? Colors.white70
+                                            : Colors.black45),
+                              ),
+                              Text(
+                                "Toplam Metraj: " +
+                                    sonuc.data[index].metraj.toString(),
+                                style: TextStyle(
+                                    fontFamily: "ElYazisi",
+                                    fontSize: 15,
+                                    color:
+                                        sonuc.data[index].isim == "Olive Marron"
+                                            ? Colors.white70
+                                            : Colors.black45),
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                     );

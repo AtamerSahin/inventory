@@ -28,4 +28,22 @@ class EbatliRepository {
         .get();
     return snap;
   }
+
+  //ID ile VERİ SORGULA
+  Future<QuerySnapshot> getQuerywithIdRepo(String id) async {
+    var snap = await _firestore
+        .collection("Plakalar")
+        .where("id", isEqualTo: id)
+        .get();
+    return snap;
+  }
+
+  //ID ile SİLME İŞLEMİ
+  Future<void> silmeIslemiRepo(String id) async {
+    print("Repo Silme Tetiklendi");
+    _firestore.collection("Plakalar").doc("$id").delete().then((value) {
+      //collection eklemeen silme yapılmaz.
+      print("fireBase tetiklendi");
+    });
+  }
 }
