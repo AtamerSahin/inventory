@@ -1,9 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:inventory/models/ebatli.dart';
-import 'package:inventory/view_models/ebatli_view_models.dart';
-import 'package:inventory/widgets/plakalar.dart';
-import 'package:inventory/widgets/sorgu_ile_gelen_plakalar.dart';
-import 'package:inventory/widgets/tum_plakalar.dart';
+import 'package:inventory/view_models/qr_code_view_models.dart';
 import 'package:provider/provider.dart';
 
 class SorguEkrani extends StatefulWidget {
@@ -12,14 +8,13 @@ class SorguEkrani extends StatefulWidget {
 }
 
 class _SorguEkraniState extends State<SorguEkrani> {
+  final _textControllerIsim = TextEditingController();
   @override
   Widget build(BuildContext context) {
     var _fKey = GlobalKey<FormState>();
-    final _textControllerIsim = TextEditingController();
     String isim;
-    String geciciIsim;
     return Consumer(
-        builder: (context, EbatliViewModel _viewModel, widget) => Scaffold(
+        builder: (context, QrViewModels _qrViewModel, widget) => Scaffold(
               appBar: AppBar(
                 title: Text("Sorgu Ekranı"),
               ),
@@ -83,10 +78,17 @@ class _SorguEkraniState extends State<SorguEkrani> {
                                 Navigator.pop(context, isim);
                               }
                             }),
+                        RaisedButton(
+                            child: Text("Qr İle Sorgula"),
+                            color: Colors.blueGrey.shade100,
+                            onPressed: () {
+                              _qrViewModel.scanBytesViewModel().then((value) =>
+                                  this._textControllerIsim.text = value);
+                              //_scanBytes();
+                            }),
                       ],
                     )),
               ),
             ));
   }
 }
-/*                      */

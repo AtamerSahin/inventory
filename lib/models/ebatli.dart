@@ -6,6 +6,10 @@ class Ebatlilar {
   String _id;
   int _boy;
   String _isim;
+  String _qrurl;
+  String get qrurl => _qrurl;
+
+  set qrurl(String value) => _qrurl = value;
   String get kalite => _kalite;
 
   set kalite(String value) => _kalite = value;
@@ -35,7 +39,7 @@ class Ebatlilar {
   set isim(String value) => _isim = value;
 
   Ebatlilar(this._kalite, this._cins, this._en, this._metraj, this._id,
-      this._boy, this._isim);
+      this._boy, this._isim, this._qrurl);
 
   Ebatlilar.fromMap(Map<String, dynamic> gelenMap) {
     this._kalite = gelenMap["kalite"];
@@ -45,6 +49,7 @@ class Ebatlilar {
     this._id = gelenMap["id"];
     this._boy = gelenMap["boy"];
     this._isim = gelenMap["isim"];
+    this._qrurl = gelenMap["qrurl"];
   }
 
   Map<String, dynamic> toMap() {
@@ -56,12 +61,13 @@ class Ebatlilar {
     map["id"] = _id;
     map["boy"] = _boy;
     map["isim"] = _isim;
+    map["qrurl"] = _qrurl;
     return map;
   }
 
   @override
   String toString() {
     // TODO: implement toString
-    return 'Ebatlilar{_kalite: $_kalite, _cins: $_cins, _en: $_en, _metraj: $_metraj, _id: $_id, _boy: $_boy, _isim: $_isim}';
+    return 'Ebatlilar{_kalite: $_kalite, _cins: $_cins, _en: $_en, _metraj: $_metraj, _id: $_id, _boy: $_boy, _isim: $_isim, _qrurl: $_qrurl}';
   }
 }

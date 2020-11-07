@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:inventory/models/ebatli.dart';
 import 'package:inventory/repository/ebatli_repository.dart';
-
 import '../locator.dart';
 
 enum EbatliState {

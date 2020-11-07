@@ -14,6 +14,7 @@ class SecilenPlakaDetay extends StatelessWidget {
   final _textControllerBoy = TextEditingController();
   final _textControllerMetraj = TextEditingController();
   final _textControllerKalite = TextEditingController();
+  final _textControllerqrUrl = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Consumer(
@@ -34,6 +35,7 @@ class SecilenPlakaDetay extends StatelessWidget {
                       _textControllerMetraj.text =
                           sonuc.data[0].metraj.toString();
                       _textControllerKalite.text = sonuc.data[0].kalite;
+                      _textControllerqrUrl.text = sonuc.data[0].qrurl;
 
                       return (_viewModel.state == EbatliState.LoadingState)
                           ? veriGeliyor()
@@ -179,6 +181,12 @@ class SecilenPlakaDetay extends StatelessWidget {
                                                 },
                                               ),
                                             ),
+                                            Padding(
+                                              padding:
+                                                  const EdgeInsets.all(8.0),
+                                              child: Image.network(
+                                                  _textControllerqrUrl.text),
+                                            ),
                                             //UPDATE BUTONU
                                             ButtonTheme(
                                               minWidth: 150,
@@ -215,6 +223,8 @@ class SecilenPlakaDetay extends StatelessWidget {
                                                                   _textControllerBoy
                                                                       .text),
                                                               _textControllerIsim
+                                                                  .text,
+                                                              _textControllerqrUrl
                                                                   .text));
                                                     }
                                                     (_viewModel.state ==
