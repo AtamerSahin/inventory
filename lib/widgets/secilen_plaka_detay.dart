@@ -37,11 +37,11 @@ class SecilenPlakaDetay extends StatelessWidget {
                       _textControllerKalite.text = sonuc.data[0].kalite;
                       _textControllerqrUrl.text = sonuc.data[0].qrurl;
 
-                      return (_viewModel.state == EbatliState.LoadingState)
+                      return (_viewModel.state == EbatliState.Loading3State)
                           ? veriGeliyor()
-                          : (_viewModel.state == EbatliState.ErrorState)
+                          : (_viewModel.state == EbatliState.Error3State)
                               ? hataGeldi()
-                              : (_viewModel.state == EbatliState.LoadedState)
+                              : (_viewModel.state == EbatliState.Loaded3State)
                                   ? Form(
                                       key: _fKey,
                                       child: SingleChildScrollView(
@@ -190,7 +190,7 @@ class SecilenPlakaDetay extends StatelessWidget {
                                             //UPDATE BUTONU
                                             ButtonTheme(
                                               minWidth: 150,
-                                              height: 50,
+                                              height: 40,
                                               child: RaisedButton(
                                                   shape: RoundedRectangleBorder(
                                                       borderRadius:
@@ -244,11 +244,10 @@ class SecilenPlakaDetay extends StatelessWidget {
                                                                 : Text("Seçim");
                                                   }),
                                             ),
-                                            SizedBox(height: 20),
                                             //DELETE BUTTON
                                             ButtonTheme(
                                               minWidth: 150,
-                                              height: 50,
+                                              height: 40,
                                               child: RaisedButton(
                                                   shape: RoundedRectangleBorder(
                                                       borderRadius:

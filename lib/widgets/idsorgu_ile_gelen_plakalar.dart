@@ -1,12 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:inventory/models/ebatli.dart';
+import 'package:inventory/repository/ebatli_repository.dart';
 import 'package:inventory/view_models/ebatli_view_models.dart';
+import 'package:inventory/widgets/sorgu_ekrani.dart';
 import 'package:provider/provider.dart';
+import '../locator.dart';
+import 'plaka_ekleme_dialog.dart';
 import 'secilen_plaka_detay.dart';
 
-class SorguileGelenPlakalar extends StatelessWidget {
-  String secilenIsim;
-  SorguileGelenPlakalar({@required this.secilenIsim});
+class IdSorguileGelenPlakalar extends StatelessWidget {
+  String secilenId;
+  IdSorguileGelenPlakalar({@required this.secilenId});
   @override
   Widget build(BuildContext context) {
     String bejUrl =
@@ -17,7 +22,7 @@ class SorguileGelenPlakalar extends StatelessWidget {
         "https://image.freepik.com/free-photo/close-up-black-marble-textured-background_53876-63511.jpg";
     return Consumer(
       builder: (context, EbatliViewModel _viewModel, widget) => FutureBuilder(
-          future: _viewModel.getQueryWithNameView(secilenIsim),
+          future: _viewModel.getQueryWithIdView(secilenId),
           builder: (context, AsyncSnapshot<List<Ebatlilar>> sonuc) {
             if (sonuc.hasData) {
               print("Gelen:" + sonuc.data.toString());

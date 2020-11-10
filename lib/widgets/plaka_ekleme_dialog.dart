@@ -175,52 +175,85 @@ class _DialogumState extends State<Dialogum> {
                             },
                           ),
                         ),
-                        RaisedButton(
-                            child: (Text("Qr Oluştur")),
-                            onPressed: () {
-                              setState(() {
-                                _textControllerId.text;
-                              });
-                            }),
-                        RaisedButton(
-                            child: Text("Qr Yükle"),
-                            onPressed: () {
-                              //Qr Kodumuzu Storage a atıp Urlsini DB ye göndermek için alıyoruz.
-                              _qrViewModel
-                                  .getQrUrl(_textControllerId.text, globalKey)
-                                  .then((value) => _resimUrl = value);
-                              debugPrint("$_resimUrl güncellendi");
-                            }),
-                        RaisedButton(
-                            child: Text("Kaydet"),
-                            color: Colors.blueGrey.shade100,
-                            onPressed: () {
-                              if (_fKey.currentState.validate()) {
-                                //_fKey.currentState.save();
-                                _viewModel.addPlakaView(Ebatlilar(
-                                    _textControllerKalite.text,
-                                    _textControllerCins.text,
-                                    int.parse(_textControllerEn.text),
-                                    int.parse(_textControllerMetraj.text),
-                                    _textControllerId.text,
-                                    int.parse(_textControllerBoy.text),
-                                    _textControllerIsim.text,
-                                    _resimUrl));
-                              }
-                              (_viewModel.state == EbatliState.LoadedState)
-                                  ? veriGeldi()
-                                  //Ana sayfa geri yüklendiği için direk GetData methodu tetikleniyor.
-                                  : (_viewModel.state ==
-                                          EbatliState.LoadingState)
-                                      ? veriGeliyor()
-                                      : (_viewModel.state ==
-                                              EbatliState.ErrorState)
-                                          ? hataGeldi()
-                                          : Text("Seçim");
-                            }),
+                        ButtonTheme(
+                          minWidth: 150,
+                          height: 40,
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(18.0),
+                              side: BorderSide(color: Colors.red)),
+                          child: RaisedButton(
+                              color: Colors.cyan,
+                              child: (Text("Qr Oluştur")),
+                              onPressed: () {
+                                setState(() {
+                                  _textControllerId.text;
+                                });
+                              }),
+                        ),
+                        /*
+                        //Future.delayed komutu ile Kaydet butonu içerisinde önce storage a yğklediğimiz Url yi alıp 4 saniye sonra Db ye kaydettik, oyüzden bu aşamaya gerek
+                        //Kalmadı..
+                        ButtonTheme(
+                          minWidth: 150,
+                          height: 40,
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(18.0),
+                              side: BorderSide(color: Colors.red)),
+                          child: RaisedButton(
+                              color: Colors.amber,
+                              child: Text("Qr Yükle"),
+                              onPressed: () {
+                                //Qr Kodumuzu Storage a atıp Urlsini DB ye göndermek için alıyoruz.
+                                _qrViewModel
+                                    .getQrUrl(_textControllerId.text, globalKey)
+                                    .then((value) => _resimUrl = value);
+                                debugPrint("$_resimUrl güncellendi");
+                              }),
+                        ),*/
+                        ButtonTheme(
+                          minWidth: 150,
+                          height: 40,
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(18.0),
+                              side: BorderSide(color: Colors.red)),
+                          child: RaisedButton(
+                              child: Text("Kaydet"),
+                              color: Colors.amber,
+                              onPressed: () {
+                                _qrViewModel
+                                    .getQrUrl(_textControllerId.text, globalKey)
+                                    .then((value) => _resimUrl = value);
+                                debugPrint("$_resimUrl güncellendi");
+                                if (_fKey.currentState.validate()) {
+                                  Future.delayed(Duration(seconds: 4), () {
+                                    //_fKey.currentState.save();
+                                    _viewModel.addPlakaView(Ebatlilar(
+                                        _textControllerKalite.text,
+                                        _textControllerCins.text,
+                                        int.parse(_textControllerEn.text),
+                                        int.parse(_textControllerMetraj.text),
+                                        _textControllerId.text,
+                                        int.parse(_textControllerBoy.text),
+                                        _textControllerIsim.text,
+                                        _resimUrl));
+                                    (_viewModel.state ==
+                                            EbatliState.LoadedState)
+                                        ? veriGeldi()
+                                        //Ana sayfa geri yüklendiği için direk GetData methodu tetikleniyor.
+                                        : (_viewModel.state ==
+                                                EbatliState.LoadingState)
+                                            ? veriGeliyor()
+                                            : (_viewModel.state ==
+                                                    EbatliState.ErrorState)
+                                                ? hataGeldi()
+                                                : Text("Seçim");
+                                  });
+                                }
+                              }),
+                        ),
                         Container(
-                          height: 70,
-                          width: 60,
+                          height: 100,
+                          width: 100,
                           child: RepaintBoundary(
                             key: globalKey,
                             child: QrImage(

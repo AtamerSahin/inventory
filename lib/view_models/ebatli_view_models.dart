@@ -88,12 +88,12 @@ class EbatliViewModel with ChangeNotifier {
     //Üstte Tüm plakaları Liste Methodumuzda kullandığımız state leri burada kullanamayız, Onun için yeni Stateler açtık, Çok önemli
     Future<List<Ebatlilar>> a;
     try {
-      state = EbatliState.LoadingState;
+      state = EbatliState.Loading3State;
       a = _ebatliRepository.getQuerywithIdRepo(id).then((value) =>
           value.docs.map((e) => Ebatlilar.fromMap(e.data())).toList());
-      state = EbatliState.LoadedState;
+      state = EbatliState.Loaded3State;
     } catch (e) {
-      state = EbatliState.ErrorState;
+      state = EbatliState.Error3State;
     }
 
     return a;

@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:inventory/models/ebatli.dart';
-import 'package:inventory/repository/ebatli_repository.dart';
 import 'package:inventory/view_models/ebatli_view_models.dart';
 import 'package:inventory/widgets/sorgu_ekrani.dart';
 import 'package:inventory/widgets/sorgu_ile_gelen_plakalar.dart';
 import 'package:inventory/widgets/tum_plakalar.dart';
 import 'package:provider/provider.dart';
-import '../locator.dart';
+import 'idsorgu_ile_gelen_plakalar.dart';
 import 'plaka_ekleme_dialog.dart';
+import 'sorgu_ekrani_id.dart';
 
 class Plakalar extends StatefulWidget {
   @override
@@ -19,6 +18,7 @@ class _PlakalarState extends State<Plakalar> {
   Ebatlilar ebatlilar;
   String secilenIsim;
   //Sorgu için seçilen isim
+  String secilenid;
   @override
   Widget build(BuildContext context) {
     return Consumer(
@@ -47,6 +47,21 @@ class _PlakalarState extends State<Plakalar> {
                       _viewModel.getData();
                       //GetData methodunu tetikleyip, State durumunu değştirmek ve ürünleri listelemek için yazdık.
                     }),*/ // GetDatayı ModelView in cons unda yazdığımız için buraya gerek kalmadı.
+                IconButton(
+                    icon: Icon(Icons.qr_code_scanner),
+                    onPressed: () async {
+                      //_viewModel.stateGuncelle();
+                      //Tüm Plakalar listelendikten sonra, isme göre sıralama yapmadan önce state i initial a çeviriyoruz.
+                      //Model consta getDatayı direk yazdığımız için bu sayfa açınca tetikleniyor, burada state i initiale çeviriyoruz alıyoruz,
+
+                      secilenid = await Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => IdSorguEkrani()));
+                      _viewModel.getQueryWithIdView(secilenid);
+                      //GetData methodu gibi; getQuery Methodunu tetikleyip, State durumunu değştirmek ve ürünleri listelemek için yazdık.
+                      //GetDataya ViewModelın constructorında yazdık, çünkü açılır açılmaz veri gelmesi için
+                    }),
               ],
             ),
             floatingActionButton: FloatingActionButton(
@@ -70,7 +85,18 @@ class _PlakalarState extends State<Plakalar> {
                                 ? veriGeliyor()
                                 : (_viewModel.state == EbatliState.Error2State)
                                     ? hataGeldi()
-                                    : Text("Seçim")));
+                                    : (_viewModel.state ==
+                                            EbatliState.Loaded3State)
+                                        ? IdSorguileGelenPlakalar(
+                                            secilenId: secilenid,
+                                          )
+                                        : (_viewModel.state ==
+                                                EbatliState.Loading3State)
+                                            ? veriGeliyor()
+                                            : (_viewModel.state ==
+                                                    EbatliState.Error3State)
+                                                ? hataGeldi()
+                                                : Text("Seçim")));
   }
 
   /*ListView.builder(
