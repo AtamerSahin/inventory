@@ -182,8 +182,9 @@ class _DialogumState extends State<Dialogum> {
                               borderRadius: BorderRadius.circular(18.0),
                               side: BorderSide(color: Colors.red)),
                           child: RaisedButton(
-                              color: Colors.cyan,
-                              child: (Text("Qr Oluştur")),
+                              color: Colors.blue.shade500,
+                              child: (Text("Qr Oluştur",
+                                  style: TextStyle(color: Colors.white))),
                               onPressed: () {
                                 setState(() {
                                   _textControllerId.text;
@@ -217,15 +218,19 @@ class _DialogumState extends State<Dialogum> {
                               borderRadius: BorderRadius.circular(18.0),
                               side: BorderSide(color: Colors.red)),
                           child: RaisedButton(
-                              child: Text("Kaydet"),
-                              color: Colors.amber,
+                              child: Text("Kaydet",
+                                  style: TextStyle(color: Colors.white)),
+                              color: Colors.green.shade800,
                               onPressed: () {
+                                //Bu aşamayı 4 saniye beklemeli future kullanmasak, Yukarıdaki yükle butonunu kullanacaktık.
                                 _qrViewModel
                                     .getQrUrl(_textControllerId.text, globalKey)
                                     .then((value) => _resimUrl = value);
                                 debugPrint("$_resimUrl güncellendi");
                                 if (_fKey.currentState.validate()) {
                                   Future.delayed(Duration(seconds: 4), () {
+                                    //Future.delayed komutu ile Kaydet butonu içerisinde önce storage a yğklediğimiz Url yi alıp 4 saniye sonra Db ye kaydettik, oyüzden Resmi yükleyip
+                                    //Karşıdan url gelmesini bekleyip Qr yükle butonunu aşamasına gerek kalmadı.
                                     //_fKey.currentState.save();
                                     _viewModel.addPlakaView(Ebatlilar(
                                         _textControllerKalite.text,

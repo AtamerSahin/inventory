@@ -43,10 +43,17 @@ class QrViewModels with ChangeNotifier {
     return gelenDeger;
   }
 
-  //Qr Generate
+  //Qr Plaka Generate
   Future<dynamic> getQrUrl(String baslik, GlobalKey globalKey) async {
     //Global Key ile birlikte Qr Kodu çözümlediği için Global key önemli, Bunuda Kullanıcı kısmından alıyoruz
     dynamic url = await _qrRepo.captureAndSharePng(baslik, globalKey);
+    return url;
+  }
+
+  //Qr Palet GEnerate
+  Future<dynamic> getQrUrlPalet(String baslik, GlobalKey globalKey) async {
+    //Global Key ile birlikte Qr Kodu çözümlediği için Global key önemli, Bunuda Kullanıcı kısmından alıyoruz
+    dynamic url = await _qrRepo.captureAndSharePngPalet(baslik, globalKey);
     return url;
   }
 }

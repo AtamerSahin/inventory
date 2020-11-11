@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:inventory/models/ebatli.dart';
-import 'package:inventory/view_models/ebatli_view_models.dart';
+import 'package:inventory/models/paletler.dart';
+import 'package:inventory/view_models/paletler_view_models.dart';
 import 'package:provider/provider.dart';
 
-class SecilenPlakaDetay extends StatelessWidget {
+class SecilenPaletDetay extends StatelessWidget {
   String id;
-  SecilenPlakaDetay({@required this.id});
+  SecilenPaletDetay({@required this.id});
   var _fKey = GlobalKey<FormState>();
   final _textControllerIsim = TextEditingController();
   final _textControllerCins = TextEditingController();
@@ -18,13 +18,14 @@ class SecilenPlakaDetay extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Consumer(
-        builder: (context, EbatliViewModel _viewModel, widget) => Scaffold(
+        builder: (context, PaletlerViewModel _viewModel, widget) => Scaffold(
               appBar: AppBar(
-                title: Text("Düzenle"),
+                backgroundColor: Colors.green.shade300,
+                title: Text("Düzenle", style: TextStyle(color: Colors.black45)),
               ),
               body: FutureBuilder(
-                  future: _viewModel.getQueryWithIdView(id),
-                  builder: (context, AsyncSnapshot<List<Ebatlilar>> sonuc) {
+                  future: _viewModel.paletlerGetQueryWithIdView(id),
+                  builder: (context, AsyncSnapshot<List<Paletler>> sonuc) {
                     print("Gelen Sorgu sonucu: " + sonuc.data.toString());
                     if (sonuc.hasData) {
                       _textControllerIsim.text = sonuc.data[0].isim;
@@ -37,11 +38,11 @@ class SecilenPlakaDetay extends StatelessWidget {
                       _textControllerKalite.text = sonuc.data[0].kalite;
                       _textControllerqrUrl.text = sonuc.data[0].qrurl;
 
-                      return (_viewModel.state == EbatliState.Loading3State)
+                      return (_viewModel.state == PaletlerState.Loading3State)
                           ? veriGeliyor()
-                          : (_viewModel.state == EbatliState.Error3State)
+                          : (_viewModel.state == PaletlerState.Error3State)
                               ? hataGeldi()
-                              : (_viewModel.state == EbatliState.Loaded3State)
+                              : (_viewModel.state == PaletlerState.Loaded3State)
                                   ? Form(
                                       key: _fKey,
                                       child: SingleChildScrollView(
@@ -204,9 +205,9 @@ class SecilenPlakaDetay extends StatelessWidget {
                                                     if (_fKey.currentState
                                                         .validate()) {
                                                       //_fKey.currentState.save();
-                                                      _viewModel.addPlakaView(
-                                                          Ebatlilar(
-                                                              //Update Komutu ile, Ekleme komutuset olarak aynı şekilde kullnılabilir, Oyüzdenyeni bir update Komutu açmadık.
+                                                      _viewModel.addPaletView(
+                                                          Paletler(
+                                                              //Update Komutu ile, Ekleme komutu (.set) olarak aynı şekilde kullnılabilir, Oyüzdenyeni bir update Komutu açmadık.
                                                               _textControllerKalite
                                                                   .text,
                                                               _textControllerCins
@@ -228,17 +229,17 @@ class SecilenPlakaDetay extends StatelessWidget {
                                                                   .text));
                                                     }
                                                     (_viewModel.state ==
-                                                            EbatliState
+                                                            PaletlerState
                                                                 .LoadedState)
                                                         ? veriGeldi(context)
                                                         //Ana sayfa geri yüklendiği için direk GetData methodu tetikleniyor.
                                                         : (_viewModel.state ==
-                                                                EbatliState
+                                                                PaletlerState
                                                                     .LoadingState)
                                                             ? veriGeliyor()
                                                             : (_viewModel
                                                                         .state ==
-                                                                    EbatliState
+                                                                    PaletlerState
                                                                         .ErrorState)
                                                                 ? hataGeldi()
                                                                 : Text("Seçim");
@@ -256,29 +257,29 @@ class SecilenPlakaDetay extends StatelessWidget {
                                                       side: BorderSide(
                                                           color: Colors.red)),
                                                   child: Text("Sil"),
-                                                  color: Colors.orange.shade600,
+                                                  color: Colors.green.shade300,
                                                   onPressed: () {
                                                     if (_fKey.currentState
                                                         .validate()) {
                                                       _fKey.currentState.save();
                                                       _viewModel
-                                                          .silmeIslemiView(
+                                                          .paletlerSilmeIslemiView(
                                                               _textControllerId
                                                                   .text);
                                                     }
 
                                                     (_viewModel.state ==
-                                                            EbatliState
+                                                            PaletlerState
                                                                 .LoadedState)
                                                         ? veriGeldi(context)
                                                         //Ana sayfa geri yüklendiği için direk GetData methodu tetikleniyor.
                                                         : (_viewModel.state ==
-                                                                EbatliState
+                                                                PaletlerState
                                                                     .LoadingState)
                                                             ? veriGeliyor()
                                                             : (_viewModel
                                                                         .state ==
-                                                                    EbatliState
+                                                                    PaletlerState
                                                                         .ErrorState)
                                                                 ? hataGeldi()
                                                                 : Text("Seçim");
@@ -303,7 +304,7 @@ class SecilenPlakaDetay extends StatelessWidget {
   }
 
   hataGeldi() {
-    Text("Plakalar getirilirken hata oluştu");
+    Text("Paletler getirilirken hata oluştu");
     //Listeleme, Update, delete için Kullanılıyor
   }
 

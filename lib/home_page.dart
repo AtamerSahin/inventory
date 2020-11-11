@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'plakalar.dart';
+import 'package:inventory/widgets/paletler/paletler.dart';
+import 'widgets/Plakalar/plakalar.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -47,23 +48,27 @@ class _HomePageState extends State<HomePage> {
                 ),
               ),
             ),
-            Card(
-              elevation: 15,
-              child: Container(
-                height: 200,
-                alignment: Alignment.center,
-                child: Text(
-                  "Ebatlı Koleksiyonu",
-                  style: TextStyle(
-                      fontFamily: "ElYazisi",
-                      fontSize: 45,
-                      color: Colors.white70),
-                ),
-                decoration: BoxDecoration(
-                  image: DecorationImage(
-                      image: NetworkImage(
-                          "https://image.freepik.com/free-photo/black-marbled-surface_53876-90798.jpg"),
-                      fit: BoxFit.cover),
+            InkWell(
+              onTap: () => Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => PaletlerList())),
+              child: Card(
+                elevation: 15,
+                child: Container(
+                  height: 200,
+                  alignment: Alignment.center,
+                  child: Text(
+                    "Ebatlı Koleksiyonu",
+                    style: TextStyle(
+                        fontFamily: "ElYazisi",
+                        fontSize: 45,
+                        color: Colors.white70),
+                  ),
+                  decoration: BoxDecoration(
+                    image: DecorationImage(
+                        image: NetworkImage(
+                            "https://image.freepik.com/free-photo/black-marbled-surface_53876-90798.jpg"),
+                        fit: BoxFit.cover),
+                  ),
                 ),
               ),
             )

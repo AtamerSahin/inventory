@@ -3,15 +3,16 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:inventory/models/ebatli.dart';
 import 'package:inventory/repository/ebatli_repository.dart';
 import 'package:inventory/view_models/ebatli_view_models.dart';
-import 'package:inventory/widgets/sorgu_ekrani.dart';
 import 'package:provider/provider.dart';
-import '../locator.dart';
 import 'plaka_ekleme_dialog.dart';
 import 'secilen_plaka_detay.dart';
 
-class IdSorguileGelenPlakalar extends StatelessWidget {
-  String secilenId;
-  IdSorguileGelenPlakalar({@required this.secilenId});
+class TumPlakalar extends StatefulWidget {
+  @override
+  _TumPlakalarState createState() => _TumPlakalarState();
+}
+
+class _TumPlakalarState extends State<TumPlakalar> {
   @override
   Widget build(BuildContext context) {
     String bejUrl =
@@ -20,9 +21,13 @@ class IdSorguileGelenPlakalar extends StatelessWidget {
         "https://image.freepik.com/free-photo/black-marbled-surface_53876-90798.jpg";
     String muglaBejUrl =
         "https://image.freepik.com/free-photo/close-up-black-marble-textured-background_53876-63511.jpg";
+    String emperadorUrl =
+        "https://thumbs.dreamstime.com/b/polished-slab-natural-spanish-emperador-dark-marble-natural-emperador-dark-marble-texture-design-decorative-129795127.jpg";
+    String travertineUrl =
+        "https://thumb.bibliocad.com/thumbs/content/586x440/00040000/4000/44601.webp";
     return Consumer(
       builder: (context, EbatliViewModel _viewModel, widget) => FutureBuilder(
-          future: _viewModel.getQueryWithIdView(secilenId),
+          future: _viewModel.getData(),
           builder: (context, AsyncSnapshot<List<Ebatlilar>> sonuc) {
             if (sonuc.hasData) {
               print("Gelen:" + sonuc.data.toString());
@@ -49,7 +54,15 @@ class IdSorguileGelenPlakalar extends StatelessWidget {
                             image: DecorationImage(
                                 image: sonuc.data[index].isim == "Olive Marron"
                                     ? NetworkImage(oliveMarronUrl)
-                                    : NetworkImage(muglaBejUrl),
+                                    : sonuc.data[index].isim == "Dark Cream"
+                                        ? NetworkImage(bejUrl)
+                                        : sonuc.data[index].isim ==
+                                                "Muğla White"
+                                            ? NetworkImage(muglaBejUrl)
+                                            : sonuc.data[index].isim ==
+                                                    "Black Olive"
+                                                ? NetworkImage(emperadorUrl)
+                                                : NetworkImage(travertineUrl),
                                 fit: BoxFit.cover),
                           ),
                           /*color: index % 2 == 0
@@ -63,50 +76,60 @@ class IdSorguileGelenPlakalar extends StatelessWidget {
                                 style: TextStyle(
                                     fontFamily: "ElYazisi",
                                     fontSize: 20,
-                                    color:
-                                        sonuc.data[index].isim == "Olive Marron"
-                                            ? Colors.white70
-                                            : Colors.black45),
+                                    color: sonuc.data[index].isim ==
+                                                "Olive Marron" ||
+                                            sonuc.data[index].isim ==
+                                                "Black Olive"
+                                        ? Colors.white70
+                                        : Colors.black45),
                               ),
                               Text(
                                 "Cins: " + sonuc.data[index].cins,
                                 style: TextStyle(
                                     fontFamily: "ElYazisi",
                                     fontSize: 15,
-                                    color:
-                                        sonuc.data[index].isim == "Olive Marron"
-                                            ? Colors.white70
-                                            : Colors.black45),
+                                    color: sonuc.data[index].isim ==
+                                                "Olive Marron" ||
+                                            sonuc.data[index].isim ==
+                                                "Black Olive"
+                                        ? Colors.white70
+                                        : Colors.black45),
                               ),
                               Text(
                                 "Kalite: " + sonuc.data[index].kalite,
                                 style: TextStyle(
                                     fontFamily: "ElYazisi",
                                     fontSize: 15,
-                                    color:
-                                        sonuc.data[index].isim == "Olive Marron"
-                                            ? Colors.white70
-                                            : Colors.black45),
+                                    color: sonuc.data[index].isim ==
+                                                "Olive Marron" ||
+                                            sonuc.data[index].isim ==
+                                                "Black Olive"
+                                        ? Colors.white70
+                                        : Colors.black45),
                               ),
                               Text(
                                 "En: " + sonuc.data[index].en.toString(),
                                 style: TextStyle(
                                     fontFamily: "ElYazisi",
                                     fontSize: 15,
-                                    color:
-                                        sonuc.data[index].isim == "Olive Marron"
-                                            ? Colors.white70
-                                            : Colors.black45),
+                                    color: sonuc.data[index].isim ==
+                                                "Olive Marron" ||
+                                            sonuc.data[index].isim ==
+                                                "Black Olive"
+                                        ? Colors.white70
+                                        : Colors.black45),
                               ),
                               Text(
                                 "Boy: " + sonuc.data[index].boy.toString(),
                                 style: TextStyle(
                                     fontFamily: "ElYazisi",
                                     fontSize: 15,
-                                    color:
-                                        sonuc.data[index].isim == "Olive Marron"
-                                            ? Colors.white70
-                                            : Colors.black45),
+                                    color: sonuc.data[index].isim ==
+                                                "Olive Marron" ||
+                                            sonuc.data[index].isim ==
+                                                "Black Olive"
+                                        ? Colors.white70
+                                        : Colors.black45),
                               ),
                               Text(
                                 "Toplam Metraj: " +
@@ -114,10 +137,12 @@ class IdSorguileGelenPlakalar extends StatelessWidget {
                                 style: TextStyle(
                                     fontFamily: "ElYazisi",
                                     fontSize: 15,
-                                    color:
-                                        sonuc.data[index].isim == "Olive Marron"
-                                            ? Colors.white70
-                                            : Colors.black45),
+                                    color: sonuc.data[index].isim ==
+                                                "Olive Marron" ||
+                                            sonuc.data[index].isim ==
+                                                "Black Olive"
+                                        ? Colors.white70
+                                        : Colors.black45),
                               ),
                             ],
                           ),
@@ -132,13 +157,5 @@ class IdSorguileGelenPlakalar extends StatelessWidget {
             }
           }),
     );
-  }
-
-  veriGeliyor() {
-    return CircularProgressIndicator();
-  }
-
-  hataGeldi() {
-    Text("Arama yaparken bir hata oluştu");
   }
 }

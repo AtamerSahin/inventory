@@ -1,22 +1,29 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:inventory/locator.dart';
 import 'package:inventory/view_models/ebatli_view_models.dart';
 import 'package:inventory/view_models/qr_code_view_models.dart';
 import 'package:provider/provider.dart';
-import 'widgets/home_page.dart';
+import 'home_page.dart';
+import 'view_models/paletler_view_models.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   setupLocator();
   //setupLocator ı mutlaka koyuyorzu yoksa locator çalışmaz.
-  runApp(ChangeNotifierProvider<EbatliViewModel>(
+  runApp(MultiProvider(providers: [
+    (ChangeNotifierProvider<EbatliViewModel>(
       //Aslında Tema ve renk için MAterialApp i sarmamız gerekliydi ama başka widget a alıp sarmamız gerekecekti çünkü altında home kısmında diğer ChangeNotifier var
       //Oyüzden biz de bir üst ağaçtan yani runApp ten sardık.
       create: (context) => EbatliViewModel(),
-      child: MyApp()));
+    )),
+    (ChangeNotifierProvider<PaletlerViewModel>(
+      //Aslında Tema ve renk için MAterialApp i sarmamız gerekliydi ama başka widget a alıp sarmamız gerekecekti çünkü altında home kısmında diğer ChangeNotifier var
+      //Oyüzden biz de bir üst ağaçtan yani runApp ten sardık.
+      create: (context) => PaletlerViewModel(),
+    )),
+  ], child: MyApp()));
 }
 
 class MyApp extends StatelessWidget {

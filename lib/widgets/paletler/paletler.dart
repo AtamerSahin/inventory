@@ -1,30 +1,34 @@
+import 'dart:ui';
 import 'package:flutter/material.dart';
-import 'package:inventory/models/ebatli.dart';
-import 'package:inventory/view_models/ebatli_view_models.dart';
-import 'package:inventory/widgets/sorgu_ekrani.dart';
-import 'package:inventory/widgets/sorgu_ile_gelen_plakalar.dart';
-import 'package:inventory/widgets/tum_plakalar.dart';
+import 'package:inventory/models/paletler.dart';
+import 'package:inventory/view_models/paletler_view_models.dart';
+import 'package:inventory/widgets/paletler/palet_ekleme_dialog.dart';
+import 'package:inventory/widgets/paletler/sorgu_ekrani_id_paletler.dart';
+import 'package:inventory/widgets/paletler/sorgu_ekrani_palet.dart';
+import 'package:inventory/widgets/paletler/sorgu_ile_gelen_paletler.dart';
+import 'package:inventory/widgets/paletler/tum_paletler.dart';
 import 'package:provider/provider.dart';
-import 'idsorgu_ile_gelen_plakalar.dart';
-import 'plaka_ekleme_dialog.dart';
-import 'sorgu_ekrani_id.dart';
 
-class Plakalar extends StatefulWidget {
+import 'idsorgu_ile_geln_paletler.dart';
+
+class PaletlerList extends StatefulWidget {
   @override
-  _PlakalarState createState() => _PlakalarState();
+  _PaletlerListState createState() => _PaletlerListState();
 }
 
-class _PlakalarState extends State<Plakalar> {
-  Ebatlilar ebatlilar;
+class _PaletlerListState extends State<PaletlerList> {
+  Paletler paletler;
   String secilenIsim;
-  //Sorgu için seçilen isim
+  //Sorgu için seçilen yani sorgu ekranından dönen isim
   String secilenid;
+  //Sorgu için seçilen yani sorgu ekranından dönen id
   @override
   Widget build(BuildContext context) {
     return Consumer(
-        builder: (context, EbatliViewModel _viewModel, widget) => Scaffold(
+        builder: (context, PaletlerViewModel _viewModel, widget) => Scaffold(
             appBar: AppBar(
-              title: Text("Plakalar"),
+              backgroundColor: Colors.green.shade300,
+              title: Text("Paletler", style: TextStyle(color: Colors.black45)),
               actions: [
                 IconButton(
                     icon: Icon(Icons.search),
@@ -36,8 +40,8 @@ class _PlakalarState extends State<Plakalar> {
                       secilenIsim = await Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => SorguEkrani()));
-                      _viewModel.getQueryWithNameView(secilenIsim);
+                              builder: (context) => SorguEkraniPalet()));
+                      _viewModel.paletlerGetQueryWithNameView(secilenIsim);
                       //GetData methodu gibi; getQuery Methodunu tetikleyip, State durumunu değştirmek ve ürünleri listelemek için yazdık.
                       //GetDataya ViewModelın constructorında yazdık, çünkü açılır açılmaz veri gelmesi için
                     }),
@@ -57,44 +61,46 @@ class _PlakalarState extends State<Plakalar> {
                       secilenid = await Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => IdSorguEkrani()));
-                      _viewModel.getQueryWithIdView(secilenid);
+                              builder: (context) => IdSorguEkraniPaletler()));
+                      _viewModel.paletlerGetQueryWithIdView(secilenid);
                       //GetData methodu gibi; getQuery Methodunu tetikleyip, State durumunu değştirmek ve ürünleri listelemek için yazdık.
                       //GetDataya ViewModelın constructorında yazdık, çünkü açılır açılmaz veri gelmesi için
                     }),
               ],
             ),
             floatingActionButton: FloatingActionButton(
+              backgroundColor: Colors.green.shade300,
               child: Icon(Icons.add),
               onPressed: () {
                 dialogAc();
               },
             ),
             //Her MEthod için mutlaka yeni state tanımlamak en kritik nokta!
-            body: (_viewModel.state == EbatliState.LoadedState)
-                ? TumPlakalar()
-                : (_viewModel.state == EbatliState.LoadingState)
+            body: (_viewModel.state == PaletlerState.LoadedState)
+                ? TumPaletler()
+                : (_viewModel.state == PaletlerState.LoadingState)
                     ? veriGeliyor()
-                    : (_viewModel.state == EbatliState.ErrorState)
+                    : (_viewModel.state == PaletlerState.ErrorState)
                         ? hataGeldi()
-                        : (_viewModel.state == EbatliState.Loaded2State)
-                            ? SorguileGelenPlakalar(
+                        : (_viewModel.state == PaletlerState.Loaded2State)
+                            ? SorguileGelenPaletler(
                                 secilenIsim: secilenIsim,
                               )
-                            : (_viewModel.state == EbatliState.Loading2State)
+                            : (_viewModel.state == PaletlerState.Loading2State)
                                 ? veriGeliyor()
-                                : (_viewModel.state == EbatliState.Error2State)
+                                : (_viewModel.state ==
+                                        PaletlerState.Error2State)
                                     ? hataGeldi()
                                     : (_viewModel.state ==
-                                            EbatliState.Loaded3State)
-                                        ? IdSorguileGelenPlakalar(
+                                            PaletlerState.Loaded3State)
+                                        ? IdSorguileGelenPaletler(
                                             secilenId: secilenid,
                                           )
                                         : (_viewModel.state ==
-                                                EbatliState.Loading3State)
+                                                PaletlerState.Loading3State)
                                             ? veriGeliyor()
                                             : (_viewModel.state ==
-                                                    EbatliState.Error3State)
+                                                    PaletlerState.Error3State)
                                                 ? hataGeldi()
                                                 : Text("Seçim")));
   }
@@ -114,13 +120,13 @@ class _PlakalarState extends State<Plakalar> {
   }
 
   hataGeldi() {
-    Text("Plakalar getirilirken hata oluştu");
+    Text("Paletler getirilirken hata oluştu");
   }
 
   void dialogAc() {
     showDialog(
         context: (context),
         barrierDismissible: true,
-        builder: (context) => Dialogum());
+        builder: (context) => PaletEkleDialogum());
   }
 }
