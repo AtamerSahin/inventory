@@ -9,7 +9,6 @@ import 'dart:io';
 import 'dart:typed_data';
 import 'dart:ui';
 import 'package:firebase_storage/firebase_storage.dart';
-import 'package:qr_flutter/qr_flutter.dart';
 
 class QrCodeRepository {
   //Qr Okuyucu
